@@ -6,12 +6,17 @@ using TMPro;
 
 public class UITextTypeWriter : MonoBehaviour 
 {
+    public AudioClip typing;
+    public AudioClip ding;
+    
+    private AudioSource Audio;
 	TMP_Text txt;
 	string story;
     public float delay = 0.0125f;
 
 	void Awake () 
 	{
+        Audio = GetComponent<AudioSource>();
 		txt = GetComponent<TMP_Text>();
 		story = txt.text;
 		txt.text = "";
@@ -24,9 +29,10 @@ public class UITextTypeWriter : MonoBehaviour
 	{
 		foreach (char c in story) 
 		{
+            Audio.PlayOneShot(typing);
 			txt.text += c;
 			yield return new WaitForSeconds (delay);
 		}
+        Audio.PlayOneShot(ding);
 	}
-
 }
