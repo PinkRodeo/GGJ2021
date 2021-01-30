@@ -20,16 +20,26 @@ public class TunnelChunk : MonoBehaviour
 
     private int _currentLengthSegment = 0;
 
-    private int _radiusSegmentCountMax;
+    private int _radiusSegmentCount;
     private int _lengthSegmentCountMax;
 
     // Radius lines are the tunnel circles that run perpendicular to the path of the tunnel
     public LineRenderer[] radiusLines;
+    private Vector3[][] _radiusLineVertices;
 
     // Length lines are the tunnel edges that run alongside the path of the tunnel
     public LineRenderer[] lengthLines;
+    private Vector3[][] _lengthLineVertices;
 
     private TunnelPoint[] _tunnelPoints;
+
+    public TunnelPoint[] tunnelPoints
+    {
+        get
+        {
+            return _tunnelPoints;
+        }
+    }
 
     // Orientation/heading for the starting point of the circle drawing
     private Vector3 _upDirection = Vector3.left;
@@ -45,15 +55,16 @@ public class TunnelChunk : MonoBehaviour
         _tunnelPoints = new TunnelPoint[0];
     }
 
-    public void Initialize(TunnelPlacer parent, int radiusSegmentCountMax, int lengthSegmentCountMax)
+    public void Initialize(TunnelPlacer parent, int radiusSegmentCount, int lengthSegmentCountMax)
     {
         this.enabled = true;
         _parent = parent;
 
-        _radiusSegmentCountMax = radiusSegmentCountMax;
+        _radiusSegmentCount = radiusSegmentCount;
         _lengthSegmentCountMax = lengthSegmentCountMax;
 
         radiusLines = new LineRenderer[_lengthSegmentCountMax];
+        _radiusLineVertices = new Vector3[_lengthSegmentCountMax][];
         for (int i = 0; i < _lengthSegmentCountMax; i++)
         {
             var obj = Instantiate(radiusLine, Vector3.zero, Quaternion.identity, transform);
@@ -65,15 +76,18 @@ public class TunnelChunk : MonoBehaviour
                 Debug.LogError("radiusLine didn't have a LineRenderer!");
                 break;
             }
-            lineRenderer.positionCount = radiusSegmentCountMax;
+            lineRenderer.positionCount = radiusSegmentCount;
+            _radiusLineVertices[i] = new Vector3[_radiusSegmentCount];
+
             lineRenderer.loop = true;
 
             radiusLines[i] = lineRenderer;
         }
 
-        lengthLines = new LineRenderer[_radiusSegmentCountMax];
+        lengthLines = new LineRenderer[_radiusSegmentCount];
+        _lengthLineVertices = new Vector3[_radiusSegmentCount][];
 
-        for (int i = 0; i < _radiusSegmentCountMax; i++)
+        for (int i = 0; i < _radiusSegmentCount; i++)
         {
             var obj = Instantiate(lengthLine, Vector3.zero, Quaternion.identity, transform);
 
@@ -85,11 +99,13 @@ public class TunnelChunk : MonoBehaviour
                 break;
             }
             lineRenderer.positionCount = 0;
+            _lengthLineVertices[i] = new Vector3[_radiusSegmentCount];
 
             lengthLines[i] = lineRenderer;
         }
 
         _tunnelPoints = new TunnelPoint[_lengthSegmentCountMax];
+
     }
 
     private void UpdateLineRenderers()
@@ -104,31 +120,33 @@ public class TunnelChunk : MonoBehaviour
         }
 
         // Set the line buffer sizes
-        for (int i = 0; i < _radiusSegmentCountMax; i++)
+        for (int i = 0; i < _radiusSegmentCount; i++)
         {
             lengthLines[i].positionCount = lineSegmentsToDraw;
+            _lengthLineVertices[i] = new Vector3[lineSegmentsToDraw];
         }
 
         var tunnelTracer = _parent.tunnelData.tunnelTracer;
 
-        for (int i = 0; i < lineSegmentsToDraw; i++)
+        float stepSize = 2f * Mathf.PI / _radiusSegmentCount;
+
+        for (int lineCounter = 0; lineCounter < lineSegmentsToDraw; lineCounter++)
         {
-            TunnelPoint tunnelPoint = _tunnelPoints[i];
+            TunnelPoint tunnelPoint = _tunnelPoints[lineCounter];
 
             float radius = tunnelPoint.radius;
             Vector3 center = tunnelPoint.position;
 
-            float stepSize = 2f * Mathf.PI / _radiusSegmentCountMax;
-
-            // Vector3 direction = Vector3.forward;
             Quaternion rotator;
 
-            if (i < _currentLengthSegment - 1)
+            if (lineCounter < _currentLengthSegment - 1)
             {
                 // project to next point
-                var nextDirection = (tunnelPoint.position - _tunnelPoints[i + 1].position).normalized;
+                var previousPosition = _tunnelPoints[lineCounter + 1].position;
 
-                center = Vector3.Lerp(center, _tunnelPoints[i + 1].position, 0.5f);
+                var nextDirection = (tunnelPoint.position - previousPosition).normalized;
+
+                center = Vector3.Lerp(center, previousPosition, 0.5f);
 
                 rotator = Quaternion.LookRotation(nextDirection, _upDirection);
             }
@@ -154,9 +172,9 @@ public class TunnelChunk : MonoBehaviour
                 {
                     Debug.LogWarning("This code should never run, pls ask Steff");
                     Vector3 previousDirection;
-                    if (i > 0)
+                    if (lineCounter > 0)
                     {
-                        previousDirection = (tunnelPoint.position - _tunnelPoints[i - 1].position).normalized;
+                        previousDirection = (tunnelPoint.position - _tunnelPoints[lineCounter - 1].position).normalized;
                     }
                     else
                     {
@@ -168,20 +186,29 @@ public class TunnelChunk : MonoBehaviour
 
             }
 
-            for (int j = 0; j < _radiusSegmentCountMax; j++)
+            for (int radiusCounter = 0; radiusCounter < _radiusSegmentCount; radiusCounter++)
             {
                 Vector3 vertex = new Vector3(
-                    radius * Mathf.Cos(stepSize * j),
-                    radius * Mathf.Sin(stepSize * j),
+                    radius * Mathf.Cos(stepSize * radiusCounter),
+                    radius * Mathf.Sin(stepSize * radiusCounter),
                     0f
                 );
 
-                vertex = rotator * vertex;
-                vertex += center;
+                vertex = (rotator * vertex) + center;
 
-                radiusLines[i].SetPosition(j, vertex);
-                lengthLines[j].SetPosition(i, vertex);
+                _radiusLineVertices[lineCounter][radiusCounter] = vertex;
+                _lengthLineVertices[radiusCounter][lineCounter] = vertex;
             }
+
+            for (int radiusCounter = 0; radiusCounter < _radiusSegmentCount; radiusCounter++)
+            {
+                radiusLines[lineCounter].SetPositions(_radiusLineVertices[lineCounter]);
+            }
+        }
+
+        for (int radiusCounter = 0; radiusCounter < _radiusSegmentCount; radiusCounter++)
+        {
+            lengthLines[radiusCounter].SetPositions(_lengthLineVertices[radiusCounter]);
         }
 
         Update();
@@ -205,7 +232,7 @@ public class TunnelChunk : MonoBehaviour
         float radius = tunnelPoint.radius;
         Vector3 center = tunnelPoint.position;
 
-        float stepSize = 2f * Mathf.PI / _radiusSegmentCountMax;
+        float stepSize = 2f * Mathf.PI / _radiusSegmentCount;
 
         var nextPosition = tunnelTracer.transform.position;
         var nextDirection = (tunnelPoint.position - nextPosition).normalized;
@@ -218,7 +245,7 @@ public class TunnelChunk : MonoBehaviour
         center = nextPosition + tunnelTracer.currentDirection * forwardOffset;
         Quaternion rotator = Quaternion.LookRotation(nextDirection, _upDirection);
 
-        for (int j = 0; j < _radiusSegmentCountMax; j++)
+        for (int j = 0; j < _radiusSegmentCount; j++)
         {
             Vector3 vertex = new Vector3(
                 radius * Mathf.Cos(stepSize * j),
@@ -275,5 +302,46 @@ public class TunnelChunk : MonoBehaviour
         // 1 is for drawing a segment ahead of the player
         // 2 is for storing the point after this chunk, which won't be rendered but the last shown segment still needs to point towards it
         return _currentLengthSegment + 2 < _lengthSegmentCountMax;
+    }
+
+    public void FinishChunk()
+    {
+        TunnelWorld.instance.AddChunk(this);
+
+        _radiusLineVertices = new Vector3[0][];
+        _lengthLineVertices = new Vector3[0][];
+
+        this.enabled = false;
+    }
+
+    public Bounds GetBounds()
+    {
+        var returnValue = new Bounds(_tunnelPoints[0].position, Vector3.one);
+
+        for (int i = 0; i < _currentLengthSegment; i++)
+        {
+            returnValue.Encapsulate(_tunnelPoints[i].position);
+        }
+
+        return returnValue;
+    }
+
+
+    public void DoDebugDraw()
+    {
+        Vector3 previousPosition = Vector3.zero;
+
+        for (int i = 0; i < _currentLengthSegment; i++)
+        {
+            if (i == 0)
+            {
+                previousPosition = _tunnelPoints[i].position;
+                continue;
+            }
+
+            Debug.DrawLine(_tunnelPoints[i].position, previousPosition, Color.green, 0.5f);
+
+            previousPosition = _tunnelPoints[i].position;
+        }
     }
 }

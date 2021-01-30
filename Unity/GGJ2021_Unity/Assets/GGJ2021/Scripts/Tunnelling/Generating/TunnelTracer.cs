@@ -75,10 +75,9 @@ public class TunnelTracer : MonoBehaviour
             AddTrace();
         }
 
+        // FOr test purposes
         var currentPosition = transform.position;
-
         currentDirection = (currentPosition - _previousPosition).normalized;
-
     }
 
     private void AddTrace()

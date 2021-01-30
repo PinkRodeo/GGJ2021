@@ -19,13 +19,13 @@ public class GoIntoRandomDirections : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += _randomDirection * speed * Time.deltaTime;
+        transform.position += _randomDirection * speed * Time.deltaTime * 11f;
     }
 
     private void GoIntoRandomDirection()
     {
-        _randomDirection = Vector3.Lerp(_generalDirection, Random.rotation * Vector3.forward, 0.35f).normalized;
+        _randomDirection = Vector3.Lerp(_generalDirection, Random.rotation * Vector3.forward, 0.30f).normalized;
 
-        Invoke("GoIntoRandomDirection", Random.Range(0.6f, 1f));
+        Invoke("GoIntoRandomDirection", Random.Range(0.4f, 1f));
     }
 }

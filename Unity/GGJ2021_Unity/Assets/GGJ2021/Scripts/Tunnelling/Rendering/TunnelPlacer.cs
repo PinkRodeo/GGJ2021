@@ -45,6 +45,8 @@ public class TunnelPlacer : MonoBehaviour
         if (_previousTunnelChunk != null)
         {
             _previousTunnelChunk.AddFirstPointOfNextChunk(newTunnelPoint);
+            _previousTunnelChunk.FinishChunk();
+            // Destroy(_previousTunnelChunk);
             _previousTunnelChunk = null;
         }
 

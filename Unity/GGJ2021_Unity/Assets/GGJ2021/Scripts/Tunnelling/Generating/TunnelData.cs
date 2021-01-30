@@ -20,9 +20,15 @@ public struct TunnelPoint
 /// </summary>
 public class TunnelData : MonoBehaviour
 {
+    public static int MAX_TUNNEL_POINTS = 10000;
+
     // [UnityEngine.SerializeField]
-    public List<TunnelPoint> tunnelPoints = new List<TunnelPoint>();
+    public TunnelPoint[] tunnelPoints = new TunnelPoint[0];
     public OnTunnelUpdated onTunnelUpdated;
+
+    private int _currentTunnelIndex = 0;
+
+    private bool _reachedMaxSize = false;
 
     public TunnelTracer tunnelTracer
     {
@@ -37,14 +43,27 @@ public class TunnelData : MonoBehaviour
     public void StartTunnel(TunnelTracer activeTunnelTracer)
     {
         _tunnelTracer = activeTunnelTracer;
+        tunnelPoints = new TunnelPoint[MAX_TUNNEL_POINTS];
+        _currentTunnelIndex = 0;
     }
 
     public void AddTunnelPoint(TunnelPoint tunnelPoint)
     {
-        tunnelPoints.Add(tunnelPoint);
+        if (_currentTunnelIndex + 1 > MAX_TUNNEL_POINTS)
+        {
+            if (_reachedMaxSize == false)
+            {
+                _reachedMaxSize = true;
+                Debug.LogError("Reached max length of a tunnel!");
+            }
+            return;
+        }
+
+        tunnelPoints[_currentTunnelIndex] = tunnelPoint;
+        _currentTunnelIndex += 1;
 
         if (onTunnelUpdated != null)
-            onTunnelUpdated(tunnelPoint, tunnelPoints.Count);
+            onTunnelUpdated(tunnelPoint, _currentTunnelIndex - 1);
     }
 
     public void FinishTunnel()
