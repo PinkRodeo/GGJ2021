@@ -11,14 +11,24 @@ public class TunnelTracer : MonoBehaviour
 
     private Vector3 _previousSamplePosition;
 
+    public static TunnelTracer activeTunnelTracer;
 
     private Transform _transform;
 
+
+    private Vector3 _previousPosition;
+    public Vector3 currentDirection = Vector3.forward;
+
     private void Awake()
     {
+        activeTunnelTracer = this;
         _transform = transform;
     }
 
+    private void OnDestroy()
+    {
+        activeTunnelTracer = null;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +72,11 @@ public class TunnelTracer : MonoBehaviour
         {
             AddTrace();
         }
+
+        var currentPosition = transform.position;
+
+        currentDirection = (currentPosition - _previousPosition).normalized;
+
     }
 
     private void AddTrace()

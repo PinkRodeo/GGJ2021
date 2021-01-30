@@ -29,13 +29,11 @@ public class TunnelDrawer : MonoBehaviour
             return;
         }
 
-
         CleanupShapes();
-
         _tunnelContainer.onTunnelUpdated += OnTunnelUpdated;
     }
 
-    private void OnTunnelUpdated()
+    private void OnTunnelUpdated(TunnelPoint newTunnelPoint, int newTunnelIndex)
     {
         CleanupShapes();
 
@@ -141,6 +139,11 @@ public class TunnelDrawer : MonoBehaviour
 
     private void OnEndFrameRendering(ScriptableRenderContext arg1, Camera[] arg2)
     {
+        if (true)
+        {
+            return;
+        }
+
         float thickness = cylinderLineThickness;
 
         foreach (var p in _cylinderCircleLines)

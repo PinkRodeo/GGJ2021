@@ -4,14 +4,15 @@ using UnityEngine;
 
 public class GoIntoRandomDirections : MonoBehaviour
 {
-    private Vector3 _randomDirection;
-    private Vector3 _generalDirection = Vector3.forward;
+    public Vector3 _randomDirection;
+    private Vector3 _generalDirection = Vector3.down;
 
     public float speed = 0.2f;
 
     // Start is called before the first frame update
     void Start()
     {
+        _generalDirection = Vector3.down;
         Invoke("GoIntoRandomDirection", 0f);
     }
 
@@ -23,7 +24,7 @@ public class GoIntoRandomDirections : MonoBehaviour
 
     private void GoIntoRandomDirection()
     {
-        _randomDirection = Vector3.Lerp(_generalDirection, Random.rotation.eulerAngles, 0.1f).normalized;
+        _randomDirection = Vector3.Lerp(_generalDirection, Random.rotation * Vector3.forward, 0.35f).normalized;
 
         Invoke("GoIntoRandomDirection", Random.Range(0.6f, 1f));
     }
