@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CameraFollow : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //transform.do
         
         //transform.LookAt(PlayerItem.transform, Vector3.down);
         //transform.position = new Vector3(0,PlayerItem.transform.position.y, 0);
