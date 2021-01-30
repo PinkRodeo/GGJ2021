@@ -59,7 +59,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -173,9 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d036deee9ada4e3488173d79fc7a9736, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForceIntensity: 1
+  ForceIntensity: 2
   MaxSpeed: 4
-  RotSpeed: 4
+  RotSpeed: 1
   steering:
     serializedVersion: 2
     m_Curve:
