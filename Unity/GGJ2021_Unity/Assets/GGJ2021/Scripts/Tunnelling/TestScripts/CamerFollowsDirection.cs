@@ -19,6 +19,9 @@ public class CamerFollowsDirection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (cameraObject == null)
+            return;
+
         cameraObject.transform.rotation = Quaternion.Slerp(
             cameraObject.transform.rotation,
             // Quaternion.LookRotation(_tunnelTracer.currentDirection, Vector3.up),

@@ -15,12 +15,29 @@ public struct TunnelPoint
     public Vector3 position;
     public float radius;
 }
-
-public class TunnelContainer : MonoBehaviour
+/// <summary>
+/// Storage for the raw data of tunnels
+/// </summary>
+public class TunnelData : MonoBehaviour
 {
+    // [UnityEngine.SerializeField]
     public List<TunnelPoint> tunnelPoints = new List<TunnelPoint>();
     public OnTunnelUpdated onTunnelUpdated;
 
+    public TunnelTracer tunnelTracer
+    {
+        get
+        {
+            return _tunnelTracer;
+        }
+    }
+
+    private TunnelTracer _tunnelTracer;
+
+    public void StartTunnel(TunnelTracer activeTunnelTracer)
+    {
+        _tunnelTracer = activeTunnelTracer;
+    }
 
     public void AddTunnelPoint(TunnelPoint tunnelPoint)
     {
@@ -30,11 +47,8 @@ public class TunnelContainer : MonoBehaviour
             onTunnelUpdated(tunnelPoint, tunnelPoints.Count);
     }
 
-    void Update()
+    public void FinishTunnel()
     {
-        // for (int i = 0; i < tunnelPoints.Count - 1; i++)
-        // {
-        //     Debug.DrawLine(tunnelPoints[i].position, tunnelPoints[i + 1].position, Color.green, Time.deltaTime);
-        // }
+        _tunnelTracer = null;
     }
 }

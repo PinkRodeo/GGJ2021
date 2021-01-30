@@ -5,13 +5,14 @@ using UnityEngine;
 public class TunnelTracer : MonoBehaviour
 {
     public float segmentLength = 2f;
-    public TunnelContainer currentTunnelContainer;
+    public TunnelData targetTunnelData;
 
     private bool _isTracing = false;
 
     private Vector3 _previousSamplePosition;
 
-    public static TunnelTracer activeTunnelTracer;
+    // Used by a tunnel that's still being generated to place tunnel pieces relative to the player
+    // public static TunnelTracer activeTunnelTracer;
 
     private Transform _transform;
 
@@ -21,13 +22,12 @@ public class TunnelTracer : MonoBehaviour
 
     private void Awake()
     {
-        activeTunnelTracer = this;
         _transform = transform;
     }
 
     private void OnDestroy()
     {
-        activeTunnelTracer = null;
+
     }
 
     // Start is called before the first frame update
@@ -39,12 +39,14 @@ public class TunnelTracer : MonoBehaviour
 
     public void StartTracing()
     {
-        if (currentTunnelContainer == null)
+        if (targetTunnelData == null)
         {
-            Debug.LogError("Cannot start tracing tunnel if no tunnel container is provided!");
+            Debug.LogError("Cannot start tracing tunnel if no tunnel data is provided!");
+            // TODO: Create new tunnel if none is available
             return;
         }
 
+        targetTunnelData.StartTunnel(this);
         _isTracing = true;
 
         AddTrace();
@@ -54,7 +56,7 @@ public class TunnelTracer : MonoBehaviour
     {
         _isTracing = false;
 
-        // TODO: call a finishup function on the TunnelContainer
+        targetTunnelData.FinishTunnel();
     }
 
     // Update is called once per frame
@@ -82,6 +84,6 @@ public class TunnelTracer : MonoBehaviour
     private void AddTrace()
     {
         _previousSamplePosition = _transform.position;
-        currentTunnelContainer.AddTunnelPoint(new TunnelPoint(_previousSamplePosition));
+        targetTunnelData.AddTunnelPoint(new TunnelPoint(_previousSamplePosition));
     }
 }

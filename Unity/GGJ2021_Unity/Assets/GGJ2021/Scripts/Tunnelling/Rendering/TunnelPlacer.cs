@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class TunnelPlacer : MonoBehaviour
 {
+    private TunnelData _tunnelData;
 
-    private TunnelContainer _tunnelContainer;
+    public TunnelData tunnelData
+    {
+        get
+        {
+            return _tunnelData;
+        }
+    }
 
     public GameObject tunnelChunkPrefab;
 
@@ -13,21 +20,22 @@ public class TunnelPlacer : MonoBehaviour
     private TunnelChunk _previousTunnelChunk = null;
     private TunnelChunk _currentTunnelChunk = null;
 
-    private static int SEGMENTS_PER_CHUNK = 10;
+
+    // TODO: tweak this number together with the cost of finding chunks to collide with
+    private static int SEGMENTS_PER_CHUNK = 15;
 
     public int TunnelFaceCount = 6;
 
-
     void Start()
     {
-        _tunnelContainer = GetComponent<TunnelContainer>();
-        if (_tunnelContainer == null)
+        _tunnelData = GetComponent<TunnelData>();
+        if (_tunnelData == null)
         {
-            Debug.LogError("Couldn't find a TunnelContainer to draw");
+            Debug.LogError("Couldn't find a TunnelData to draw");
             return;
         }
 
-        _tunnelContainer.onTunnelUpdated += OnTunnelUpdated;
+        _tunnelData.onTunnelUpdated += OnTunnelUpdated;
 
         AddTunnelChunk();
     }
@@ -53,7 +61,7 @@ public class TunnelPlacer : MonoBehaviour
     {
         var newTunnelChunk = Instantiate(tunnelChunkPrefab, Vector3.zero, Quaternion.identity, transform).GetComponent<TunnelChunk>();
 
-        newTunnelChunk.Initialize(TunnelFaceCount, SEGMENTS_PER_CHUNK);
+        newTunnelChunk.Initialize(this, TunnelFaceCount, SEGMENTS_PER_CHUNK);
 
         _previousTunnelChunk = _currentTunnelChunk;
         _currentTunnelChunk = newTunnelChunk;
