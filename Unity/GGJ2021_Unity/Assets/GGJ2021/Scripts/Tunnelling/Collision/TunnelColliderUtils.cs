@@ -83,4 +83,31 @@ public static class TunnelColliderUtils
     // }
 
 
+    public static int GetClosestSegmentStartIndex(ref TunnelPoint[] tunnelPoints, int maxIndex, Vector3 center, float CollisionRate)
+    {
+        float shortestDistanceToCenter = float.MaxValue;
+        int closestStartIndex = -1;
+
+        for (int i = 0; i < maxIndex - 1; i++)
+        {
+            var start = tunnelPoints[i];
+            var end = tunnelPoints[i + 1];
+
+            Debug.DrawLine(start.position, end.position, Color.yellow, CollisionRate);
+
+            var nearestPoint = TunnelColliderUtils.FindNearestPointOnLine(start.position, end.position, center);
+
+            var distanceToCenter = Vector3.SqrMagnitude(nearestPoint - center);
+
+            if (distanceToCenter < shortestDistanceToCenter)
+            {
+                shortestDistanceToCenter = distanceToCenter;
+                closestStartIndex = i;
+            }
+        }
+
+        return closestStartIndex;
+    }
+
+
 }

@@ -35,6 +35,9 @@ public class TunnelChunk : MonoBehaviour
 
     private TunnelPoint[] _tunnelPoints;
 
+    public TunnelChunk previousChunk;
+    public TunnelChunk nextChunk;
+
     public TunnelPoint[] tunnelPoints
     {
         get
