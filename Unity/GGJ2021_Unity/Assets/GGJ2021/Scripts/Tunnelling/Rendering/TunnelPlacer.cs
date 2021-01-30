@@ -66,6 +66,12 @@ public class TunnelPlacer : MonoBehaviour
         newTunnelChunk.Initialize(this, TunnelFaceCount, SEGMENTS_PER_CHUNK);
 
         _previousTunnelChunk = _currentTunnelChunk;
+        if (_previousTunnelChunk != null)
+        {
+            _previousTunnelChunk.nextChunk = newTunnelChunk;
+        }
+
         _currentTunnelChunk = newTunnelChunk;
+        _currentTunnelChunk.previousChunk = _previousTunnelChunk;
     }
 }
