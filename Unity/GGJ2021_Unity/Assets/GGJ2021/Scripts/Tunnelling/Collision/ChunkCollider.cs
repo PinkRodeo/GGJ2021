@@ -55,94 +55,67 @@ public class ChunkCollider : MonoBehaviour
                 continue;
             }
 
-            chunk.DoDebugDraw(CollisionRate);
+            Vector3 collisionPosition;
+            float radiusAtClosestPoint;
 
-            var tunnelPoints = chunk.tunnelPoints;
-            var maxIndex = chunk.currentLengthSegment - 1;
-
-            Debug.DrawLine(
-                tunnelPoints[0].position,
-                tunnelPoints[maxIndex].position,
-                Color.red, 0.5f);
-
-            var closestStartIndex = TunnelColliderUtils.GetClosestSegmentStartIndex(ref tunnelPoints, maxIndex, center, CollisionRate);
-
-            if (closestStartIndex == -1)
+            if (true)
             {
-                Debug.LogWarning("No closest?");
-                continue;
-            }
+                // keeping inside tunnel
 
-            var start = tunnelPoints[closestStartIndex];
-            var end = tunnelPoints[closestStartIndex + 1];
-
-            var ratio = TunnelColliderUtils.FindNearestPointOnLineRatio(start.position, end.position, center);
-            var position = TunnelColliderUtils.FindNearestPointOnLine(start.position, end.position, center);
-
-            var radiusAtClosestPoint = Mathf.Lerp(start.radius, end.radius, ratio);
-
-            // For pushing out of tunnel
-
-            // var isOverlap = TunnelColliderUtils.DoesSphereIntersectBox(position, radiusAtClosestPoint, colliderBounds);
-
-            // if (isOverlap)
-            // {
-            //     DebugExtension.DebugCapsule(position, position + Vector3.one * 0.01f, Color.red, radiusAtClosestPoint, CollisionRate * 10, false);
-
-            //     // TODO: Push away player from this point
-
-            //     var rigidBody = GetComponent<Rigidbody>();
-
-            //     if (rigidBody == null)
-            //     {
-            //         Debug.LogError("Added a collider on something without a rigidbody!");
-            //         continue;
-            //     }
-
-            //     // rigidBody.AddForce((center - position).normalized * 10f, ForceMode.Impulse);
-            //     rigidBody.AddForce((position - center).normalized * 10f, ForceMode.Impulse);
-            //     //    rigidBody.AddTorque()
-            // }
-            // else
-            // {
-            //     DebugExtension.DebugCapsule(position, position + Vector3.one * 0.01f, Color.green, radiusAtClosestPoint, CollisionRate, false);
-            // }
-
-            // For keeping inside tunnel
-
-            var isExiting = TunnelColliderUtils.DoesBoxLeaveSphere(position, radiusAtClosestPoint, colliderBounds);
-
-            if (isExiting)
-            {
-                DebugExtension.DebugCapsule(position, position + Vector3.one * 0.01f, Color.red, radiusAtClosestPoint, CollisionRate * 10, false);
-
-                // TODO: Push away player from this point
-
-                var rigidBody = GetComponent<Rigidbody>();
-
-                if (rigidBody == null)
+                if (TunnelColliderUtils.IsExitingTunnel(chunk, CollisionRate, center, colliderBounds, out collisionPosition, out radiusAtClosestPoint))
                 {
-                    Debug.LogError("Added a collider on something without a rigidbody!");
-                    continue;
+                    DebugExtension.DebugCapsule(collisionPosition, collisionPosition + Vector3.one * 0.01f, Color.red, radiusAtClosestPoint, CollisionRate * 10, false);
+
+                    // TODO: Push away player from this point
+
+                    var rigidBody = GetComponent<Rigidbody>();
+
+                    if (rigidBody == null)
+                    {
+                        Debug.LogError("Added a collider on something without a rigidbody!");
+                        continue;
+                    }
+
+                    // rigidBody.AddForce((center - position).normalized * 10f, ForceMode.Impulse);
+
+                    var pushAway = (collisionPosition - center).normalized * 2f;
+
+                    DebugExtension.DebugArrow(collisionPosition, pushAway, Color.black, 1f);
+                    rigidBody.AddForce(pushAway, ForceMode.Impulse);
+                    //    rigidBody.AddTorque()
                 }
-
-                // rigidBody.AddForce((center - position).normalized * 10f, ForceMode.Impulse);
-
-                var pushAway = (position - center).normalized * 2f;
-
-                DebugExtension.DebugArrow(position, pushAway, Color.black, 1f);
-                rigidBody.AddForce(pushAway, ForceMode.Impulse);
-                //    rigidBody.AddTorque()
+                else
+                {
+                    DebugExtension.DebugCapsule(collisionPosition, collisionPosition + Vector3.one * 0.01f, Color.green, radiusAtClosestPoint, CollisionRate, false);
+                }
             }
             else
             {
-                DebugExtension.DebugCapsule(position, position + Vector3.one * 0.01f, Color.green, radiusAtClosestPoint, CollisionRate, false);
-            }
+                // keeping outside tunnel
+                if (TunnelColliderUtils.IsEnteringTunnel(chunk, CollisionRate, center, colliderBounds, out collisionPosition, out radiusAtClosestPoint))
+                {
+                    DebugExtension.DebugCapsule(collisionPosition, collisionPosition + Vector3.one * 0.01f, Color.red, radiusAtClosestPoint, CollisionRate * 10, false);
 
+                    // TODO: Push away player from this point
+
+                    var rigidBody = GetComponent<Rigidbody>();
+
+                    if (rigidBody == null)
+                    {
+                        Debug.LogError("Added a collider on something without a rigidbody!");
+                        continue;
+                    }
+
+                    // rigidBody.AddForce((center - position).normalized * 10f, ForceMode.Impulse);
+                    rigidBody.AddForce((collisionPosition - center).normalized * 10f, ForceMode.Impulse);
+                    //    rigidBody.AddTorque()
+                }
+                else
+                {
+                    DebugExtension.DebugCapsule(collisionPosition, collisionPosition + Vector3.one * 0.01f, Color.green, radiusAtClosestPoint, CollisionRate, false);
+
+                }
+            }
         }
     }
-    // Vector3.cl
-
-    // bounds.ClosestPoint
-
 }
