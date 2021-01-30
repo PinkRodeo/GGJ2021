@@ -40,7 +40,7 @@ private Rigidbody _rb;
             _rb.AddForce(new Vector3 (mouseoffset.x * SteerIntensity, 0, mouseoffset.y* SteerIntensity));
             _rb.AddForce(Vector3.down * ForceIntensity,ForceMode.Acceleration);
             _rb.velocity = new Vector3(_rb.velocity.x, Mathf.Clamp(_rb.velocity.y, -100, 0), _rb.velocity.z);
-            transform.rotation.eulerAngles.Set()
+            //transform.rotation.eulerAngles.Set()
         }
     }
 }
