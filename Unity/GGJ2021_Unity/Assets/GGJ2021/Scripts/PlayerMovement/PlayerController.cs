@@ -30,16 +30,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        #if UNITY_EDITOR
         if (Input.GetKey(KeyCode.Y))
         {
             _movingDown = false;
             keyboardenabled = true;
             _rb.velocity = Vector3.zero;
-
-            
-
-
         }
+         #endif
         if (keyboardenabled)
         {
             if (Input.GetKey(KeyCode.W))
@@ -60,7 +58,7 @@ public class PlayerController : MonoBehaviour
             Vector3 mousecurve = new Vector3(steering.Evaluate(mouseNorm.x), steering.Evaluate(mouseNorm.y), 0);
             //Vector3 norm = new Vector3(mousecurve.x -1, mousecurve.y -1, mousecurve.z -1 );
             Vector3 mouseRotNorm = mousecurve;
-            transform.Rotate(new Vector3(Mathf.Clamp(-mouseRotNorm.y * RotSpeed, 0, 180), mouseRotNorm.x * RotSpeed, 0));
+            transform.Rotate(new Vector3(-mouseRotNorm.y * RotSpeed, mouseRotNorm.x * RotSpeed, 0));
             
             if (mousesaved != Input.mousePosition)   // set the mouse saved positon
             {
