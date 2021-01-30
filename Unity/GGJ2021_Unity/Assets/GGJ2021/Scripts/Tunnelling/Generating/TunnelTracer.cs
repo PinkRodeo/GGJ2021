@@ -5,6 +5,8 @@ using UnityEngine;
 public class TunnelTracer : MonoBehaviour
 {
     public float segmentLength = 2f;
+
+    public float segmentRadius = 5f;
     public TunnelData targetTunnelData;
 
     private bool _isTracing = false;
@@ -83,6 +85,6 @@ public class TunnelTracer : MonoBehaviour
     private void AddTrace()
     {
         _previousSamplePosition = _transform.position;
-        targetTunnelData.AddTunnelPoint(new TunnelPoint(_previousSamplePosition));
+        targetTunnelData.AddTunnelPoint(new TunnelPoint(_previousSamplePosition, segmentRadius));
     }
 }
