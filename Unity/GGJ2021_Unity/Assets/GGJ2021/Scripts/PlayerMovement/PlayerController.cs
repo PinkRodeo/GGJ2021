@@ -30,14 +30,12 @@ private Rigidbody _rb;
     void FixedUpdate()
     {
         //Vector3 mouseRotRaw = mousesaved - new Vector3(Screen.width /2 , Screen.height/2 , 0);
-        Vector3 mEdit = new Vector3(mousesaved.x / Screen.width, mousesaved.y / Screen.height);
-        mEdit = new Vector3 (steering.Evaluate(mEdit.x), steering.Evaluate(mEdit.y),0);
-        mEdit = mEdit *2;
-        Vector3 norm = new Vector3(mEdit.x -1, mEdit.y -1, mEdit.z -1 );
-        Debug.Log(norm);
-        //0 0.3 0.6 1
-        //
-        Vector3 mouseRotNorm = norm;
+        Vector3 mouseNorm = new Vector3(mousesaved.x / Screen.width, mousesaved.y / Screen.height);
+        Debug.Log(mouseNorm);
+        Vector3 mousecurve = new Vector3 (steering.Evaluate(mouseNorm.x), steering.Evaluate(mouseNorm.y),0);
+        Debug.Log(mousecurve);
+        //Vector3 norm = new Vector3(mousecurve.x -1, mousecurve.y -1, mousecurve.z -1 );
+        Vector3 mouseRotNorm = mousecurve;
         transform.Rotate( new Vector3(-mouseRotNorm.y * RotSpeed, mouseRotNorm.x * RotSpeed , 0));
         //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
 
@@ -54,10 +52,12 @@ private Rigidbody _rb;
 
         if (_movingDown) 
         {   
-            _rb.AddForce(transform.forward * ForceIntensity ,ForceMode.Force);
-            _rb.velocity = new Vector3(Mathf.Clamp(_rb.velocity.x, -MaxSpeed, MaxSpeed), Mathf.Clamp(_rb.velocity.y, -MaxSpeed, MaxSpeed), Mathf.Clamp(_rb.velocity.z, -MaxSpeed, MaxSpeed));
-          
-            //transform.rotation.eulerAngles.Set()
+            //_rb.AddForce(transform.forward * ForceIntensity ,ForceMode.Force);
+            //_rb.velocity = new Vector3(Mathf.Clamp(_rb.velocity.x, -MaxSpeed, MaxSpeed), Mathf.Clamp(_rb.velocity.y, -MaxSpeed, MaxSpeed), Mathf.Clamp(_rb.velocity.z, -MaxSpeed, MaxSpeed));
+            _rb.velocity = transform.forward * MaxSpeed;
+            if (Input.GetMouseButton(0)) transform.Rotate(new Vector3 (0,0, 1));
+            if (Input.GetMouseButton(1)) transform.Rotate(new Vector3 (0,0, -1));
+            
         }
     }
 }

@@ -164,28 +164,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ForceIntensity: 1
-  MaxSpeed: 2
-  RotSpeed: 1
+  MaxSpeed: 4
+  RotSpeed: 4
   steering:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      time: 0.005296103
+      value: -0.99518824
+      inSlope: 2.772872
+      outSlope: 2.772872
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.0684179
+    - serializedVersion: 3
+      time: 0.44759297
+      value: -0.0012771953
+      inSlope: 0.029976016
+      outSlope: 0.029976016
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.55124515
+      value: -0.0012884564
+      inSlope: 0.0193623
+      outSlope: 0.0193623
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 1
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 2.7784543
+      outSlope: 2.7784543
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.12295919
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -204,7 +222,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &5315298906567085582
 MonoBehaviour:
