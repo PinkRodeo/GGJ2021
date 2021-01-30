@@ -88,6 +88,8 @@ public static class TunnelColliderUtils
         float shortestDistanceToCenter = float.MaxValue;
         int closestStartIndex = -1;
 
+        // TODO: extend tunnelpoints with those from neighbor chunks or use ChunkData
+
         for (int i = 0; i < maxIndex - 1; i++)
         {
             var start = tunnelPoints[i];
@@ -109,5 +111,96 @@ public static class TunnelColliderUtils
         return closestStartIndex;
     }
 
+    public static bool IsExitingTunnel(TunnelChunk chunk, float CollisionRate, Vector3 center, Bounds colliderBounds, out Vector3 collisionPosition, out float radiusAtClosestPoint)
+    {
+        var isExiting = IsExitingTunnelChunk(chunk, CollisionRate, center, colliderBounds, out collisionPosition, out radiusAtClosestPoint);
+
+        if (isExiting)
+        {
+            if (chunk.previousChunk != null)
+            {
+                if (!IsExitingTunnelChunk(chunk.previousChunk, CollisionRate, center, colliderBounds, out collisionPosition, out radiusAtClosestPoint))
+                {
+                    return false;
+                }
+            }
+
+            if (chunk.nextChunk != null)
+            {
+                if (!IsExitingTunnelChunk(chunk.nextChunk, CollisionRate, center, colliderBounds, out collisionPosition, out radiusAtClosestPoint))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return isExiting;
+    }
+
+    private static bool IsExitingTunnelChunk(TunnelChunk chunk, float CollisionRate, Vector3 center, Bounds colliderBounds, out Vector3 collisionPosition, out float radiusAtClosestPoint)
+    {
+        chunk.DoDebugDraw(CollisionRate);
+
+        var tunnelPoints = chunk.tunnelPoints;
+        var maxIndex = chunk.currentLengthSegment - 1;
+
+        Debug.DrawLine(
+            tunnelPoints[0].position,
+            tunnelPoints[maxIndex].position,
+            Color.red, 0.5f);
+
+        var closestStartIndex = TunnelColliderUtils.GetClosestSegmentStartIndex(ref tunnelPoints, maxIndex, center, CollisionRate);
+
+        if (closestStartIndex == -1)
+        {
+            Debug.LogWarning("No closest?");
+            collisionPosition = Vector3.zero;
+            radiusAtClosestPoint = 0f;
+            return false;
+        }
+
+        var start = tunnelPoints[closestStartIndex];
+        var end = tunnelPoints[closestStartIndex + 1];
+
+        var ratio = TunnelColliderUtils.FindNearestPointOnLineRatio(start.position, end.position, center);
+        collisionPosition = TunnelColliderUtils.FindNearestPointOnLine(start.position, end.position, center);
+        radiusAtClosestPoint = Mathf.Lerp(start.radius, end.radius, ratio);
+
+        return TunnelColliderUtils.DoesBoxLeaveSphere(collisionPosition, radiusAtClosestPoint, colliderBounds);
+    }
+
+
+    public static bool IsEnteringTunnel(TunnelChunk chunk, float CollisionRate, Vector3 center, Bounds colliderBounds, out Vector3 collisionPosition, out float radiusAtClosestPoint)
+    {
+        chunk.DoDebugDraw(CollisionRate);
+
+        var tunnelPoints = chunk.tunnelPoints;
+        var maxIndex = chunk.currentLengthSegment - 1;
+
+        Debug.DrawLine(
+            tunnelPoints[0].position,
+            tunnelPoints[maxIndex].position,
+            Color.red, 0.5f);
+
+        var closestStartIndex = TunnelColliderUtils.GetClosestSegmentStartIndex(ref tunnelPoints, maxIndex, center, CollisionRate);
+
+        if (closestStartIndex == -1)
+        {
+            Debug.LogWarning("No closest?");
+            collisionPosition = Vector3.zero;
+            radiusAtClosestPoint = 0f;
+            return false;
+        }
+
+        var start = tunnelPoints[closestStartIndex];
+        var end = tunnelPoints[closestStartIndex + 1];
+
+        var ratio = TunnelColliderUtils.FindNearestPointOnLineRatio(start.position, end.position, center);
+        collisionPosition = TunnelColliderUtils.FindNearestPointOnLine(start.position, end.position, center);
+        radiusAtClosestPoint = Mathf.Lerp(start.radius, end.radius, ratio);
+
+
+        return TunnelColliderUtils.DoesSphereIntersectBox(collisionPosition, radiusAtClosestPoint, colliderBounds);
+    }
 
 }
