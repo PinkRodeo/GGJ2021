@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/GGJ2021/Scenes/GameplayScene.unity
+    guid: 4c9d6b51aaa23ad458d56164438f1190
+  - enabled: 1
     path: Assets/GGJ2021/Scripts/Tunnelling/TunnelingExample.unity
     guid: a6c25318e25cd1e4c854cfc86eb5b6cb
   - enabled: 0

@@ -1,24 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-    
-    
+
+
 public class PlayerController : MonoBehaviour
 {
-    
-private bool _movingDown = true;
-[SerializeField]
-private float ForceIntensity = 10;
-[SerializeField]
-private int MaxSpeed = 50;
-[SerializeField]
-private float RotSpeed = 0.2f;
 
-public AnimationCurve steering;
-Vector3 mousesaved = new Vector3();
-Vector3 mouseoffset = new Vector3();
+    private bool _movingDown = true;
+    [SerializeField]
+    private float ForceIntensity = 10;
+    [SerializeField]
+    private int MaxSpeed = 50;
+    [SerializeField]
+    private float RotSpeed = 0.2f;
 
-private Rigidbody _rb;
+    public AnimationCurve steering;
+    Vector3 mousesaved = new Vector3();
+    Vector3 mouseoffset = new Vector3();
+
+    private Rigidbody _rb;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,15 +39,16 @@ private Rigidbody _rb;
         transform.Rotate( new Vector3(-mouseRotNorm.y * RotSpeed, mouseRotNorm.x * RotSpeed , 0));
         //transform.eulerAngles = new Vector3(transform.eulerAngles.x, 0, transform.rotation.eulerAngles.z);
 
-        
+
         if (mousesaved != Input.mousePosition)   // set the mouse saved positon
         {
-              mouseoffset = Input.mousePosition - mousesaved; 
-              mousesaved = Input.mousePosition; 
-              
-        } else
+            mouseoffset = Input.mousePosition - mousesaved;
+            mousesaved = Input.mousePosition;
+
+        }
+        else
         {
-            mouseoffset = mouseoffset *0.6f; // when not moving mouse, decrease stear ?? will be normalized so doesnt do anything?
+            mouseoffset = mouseoffset * 0.6f; // when not moving mouse, decrease stear ?? will be normalized so doesnt do anything?
         }
 
         if (_movingDown) 
