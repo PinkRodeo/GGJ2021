@@ -28,19 +28,19 @@ public class TunnelWorld : MonoBehaviour
         instance = null;
     }
 
+#if UNITY_EDITOR
     public void OnDrawGizmos()
     {
         if (boundsTree == null)
             return;
 
-#if UNITY_EDITOR
         if (drawAllBounds == true)
             boundsTree.DrawAllBounds();
 
         if (drawCollisionChecks == true)
             boundsTree.DrawCollisionChecks();
-#endif
     }
+#endif
 
     public TunnelChunk[] GetNearbyChunks(Bounds bounds)
     {
