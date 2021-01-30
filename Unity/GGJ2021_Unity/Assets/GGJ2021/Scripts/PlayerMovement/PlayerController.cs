@@ -8,9 +8,7 @@ public class PlayerController : MonoBehaviour
     
 private bool _movingDown = true;
 [SerializeField]
-private int ForceIntensity = 10;
-[SerializeField]
-private int SteerIntensity = 6;
+private float ForceIntensity = 10;
 [SerializeField]
 private int MaxSpeed = 50;
 [SerializeField]
@@ -56,7 +54,6 @@ private Rigidbody _rb;
 
         if (_movingDown) 
         {   
-            //_rb.AddForce(new Vector3 (mouseRotNorm.y * SteerIntensity, 0, mouseRotNorm.x* SteerIntensity));
             _rb.AddForce(transform.forward * ForceIntensity ,ForceMode.Force);
             _rb.velocity = new Vector3(Mathf.Clamp(_rb.velocity.x, -MaxSpeed, MaxSpeed), Mathf.Clamp(_rb.velocity.y, -MaxSpeed, MaxSpeed), Mathf.Clamp(_rb.velocity.z, -MaxSpeed, MaxSpeed));
           
