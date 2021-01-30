@@ -8,6 +8,12 @@ public class TunnelChunk : MonoBehaviour
     public GameObject radiusLine;
     public GameObject lengthLine;
 
+
+
+    private bool _isFinalized = false;
+
+    private int _currentLengthSegment = 0;
+
     public int currentLengthSegment
     {
         get
@@ -15,10 +21,6 @@ public class TunnelChunk : MonoBehaviour
             return _currentLengthSegment;
         }
     }
-
-    private bool _isFinalized = false;
-
-    private int _currentLengthSegment = 0;
 
     private int _radiusSegmentCount;
     private int _lengthSegmentCountMax;
@@ -48,6 +50,14 @@ public class TunnelChunk : MonoBehaviour
     public float forwardOffset = 3f;
 
     private TunnelPlacer _parent;
+
+    public TunnelPlacer parent
+    {
+        get
+        {
+            return _parent;
+        }
+    }
 
     public void Awake()
     {
@@ -327,7 +337,7 @@ public class TunnelChunk : MonoBehaviour
     }
 
 
-    public void DoDebugDraw()
+    public void DoDebugDraw(float Duration)
     {
         Vector3 previousPosition = Vector3.zero;
 
@@ -339,7 +349,7 @@ public class TunnelChunk : MonoBehaviour
                 continue;
             }
 
-            Debug.DrawLine(_tunnelPoints[i].position, previousPosition, Color.green, 0.5f);
+            Debug.DrawLine(_tunnelPoints[i].position, previousPosition, Color.green, Duration);
 
             previousPosition = _tunnelPoints[i].position;
         }

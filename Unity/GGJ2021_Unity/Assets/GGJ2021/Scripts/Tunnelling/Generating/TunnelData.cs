@@ -6,10 +6,10 @@ public delegate void OnTunnelUpdated(TunnelPoint newTunnelPoint, int newTunnelIn
 
 public struct TunnelPoint
 {
-    public TunnelPoint(Vector3 position)
+    public TunnelPoint(Vector3 position, float radius)
     {
         this.position = position;
-        this.radius = 4f;
+        this.radius = radius;
     }
 
     public Vector3 position;
@@ -30,6 +30,17 @@ public class TunnelData : MonoBehaviour
 
     private bool _reachedMaxSize = false;
 
+    private bool _isDrawing = false;
+
+    public bool isDrawing
+    {
+        get
+        {
+            return _isDrawing;
+        }
+    }
+
+
     public TunnelTracer tunnelTracer
     {
         get
@@ -45,6 +56,8 @@ public class TunnelData : MonoBehaviour
         _tunnelTracer = activeTunnelTracer;
         tunnelPoints = new TunnelPoint[MAX_TUNNEL_POINTS];
         _currentTunnelIndex = 0;
+
+        _isDrawing = true;
     }
 
     public void AddTunnelPoint(TunnelPoint tunnelPoint)
@@ -69,5 +82,6 @@ public class TunnelData : MonoBehaviour
     public void FinishTunnel()
     {
         _tunnelTracer = null;
+        _isDrawing = false;
     }
 }

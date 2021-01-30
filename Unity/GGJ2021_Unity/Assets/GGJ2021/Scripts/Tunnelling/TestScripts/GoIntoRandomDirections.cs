@@ -9,6 +9,10 @@ public class GoIntoRandomDirections : MonoBehaviour
 
     public float speed = 0.2f;
 
+    public float maxDeviationFactor = 0.3f;
+    public float minDelay = 0.4f;
+    public float maxDelay = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,8 +28,8 @@ public class GoIntoRandomDirections : MonoBehaviour
 
     private void GoIntoRandomDirection()
     {
-        _randomDirection = Vector3.Lerp(_generalDirection, Random.rotation * Vector3.forward, 0.30f).normalized;
+        _randomDirection = Vector3.Lerp(_generalDirection, Random.rotation * Vector3.forward, maxDeviationFactor).normalized;
 
-        Invoke("GoIntoRandomDirection", Random.Range(0.4f, 1f));
+        Invoke("GoIntoRandomDirection", Random.Range(minDelay, maxDelay));
     }
 }
