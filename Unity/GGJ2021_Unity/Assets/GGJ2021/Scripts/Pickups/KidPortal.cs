@@ -1,16 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
+using DG.Tweening;
+
 
 [RequireComponent(typeof(Collider))]
 
 public class KidPortal : MonoBehaviour
 {
     private bool _closed = true;
-    public GameObject visuals;
+    public GameObject _visualObject;
 
     private void Awake()
     {
+        _visualObject.transform.localScale = Vector3.zero;
+
         _closed = true;
         ScoreManager.OnScoreChanged += OnScoreChanged;
     }
@@ -37,6 +43,9 @@ public class KidPortal : MonoBehaviour
         {
             // TODO: Play sound
 
+
+            SceneManager.LoadScene("MenuVisuals");
+
         }
     }
 
@@ -49,6 +58,8 @@ public class KidPortal : MonoBehaviour
         }
 
         _closed = false;
+
+        _visualObject.transform.DOScale(Vector3.one, 0.5f);
         // TODO: SFX, animation
     }
 
@@ -61,6 +72,8 @@ public class KidPortal : MonoBehaviour
         }
 
         // Close animatino
+
+        _visualObject.transform.DOScale(Vector3.zero, 0.5f);
 
         _closed = true;
     }
