@@ -80,7 +80,7 @@ public class PlayerController : MonoBehaviour
     void OnApplicationFocus(bool hasFocus)
     {
         _movingDown = hasFocus;
-        if (!hasFocus) _rb.velocity = Vector3.zero;
+        //if (!hasFocus) _rb.velocity = Vector3.zero;
     }
 
 }
