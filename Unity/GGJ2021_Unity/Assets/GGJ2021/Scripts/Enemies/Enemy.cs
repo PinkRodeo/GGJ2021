@@ -2,20 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 [RequireComponent(typeof(Collider))]
 public class Enemy : MonoBehaviour
 {
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    private bool _tempDisabled = false;
+
+    public GameObject _visual;
 
     private void OnCollisionEnter(Collision collision)
     {
-        GameObject other = collision.gameObject;
+        if (_tempDisabled)
+            return;
 
-        Debug.Log("Check if collision is with player, and send some event if so?");
+        GameObject other = collision.gameObject;
+        if (other.tag == "Player")
+        {
+            ScoreManager.Add(-50);
+
+            _tempDisabled = true;
+
+            _visual.transform.DOBlendableScaleBy(Vector3.one * 1.1f, 0.15f).SetEase(Ease.OutBack).OnComplete(() =>
+                 {
+                     _visual.transform.DOBlendableScaleBy(Vector3.one / 1.1f, 0.2f).SetEase(Ease.InQuart).OnComplete(() =>
+                     {
+                         _tempDisabled = false;
+                     });
+                 });
+        }
+
+        Debug.LogWarning("TODO: Decide if we want to do something when enemies touch you.");
     }
 }

@@ -15,10 +15,10 @@ public class PickupSpawner : MonoBehaviour
     private Bounds _bounds;
     private List<GameObject> _activePickups = new List<GameObject>();
 
-    public int waveBudget = 50;
+    public int waveBudget = 60;
 
     public int clusterMin = 3;
-    public int clusterMax = 9;
+    public int clusterMax = 7;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ public class PickupSpawner : MonoBehaviour
         if (!_bounds.Contains(position))
             return false;
 
-        var overlappers = Physics.OverlapSphere(position, 4f);
+        var overlappers = Physics.OverlapSphere(position, 3f);
 
         if (overlappers.Length > 1)
         {
@@ -56,7 +56,7 @@ public class PickupSpawner : MonoBehaviour
 
         Destroy(pickupToRemove.gameObject);
 
-        if (_activePickups.Count < 1)
+        if (_activePickups.Count < 10)
         {
             SpawnPickupWave();
         }
@@ -79,7 +79,7 @@ public class PickupSpawner : MonoBehaviour
             {
                 var previousPoint = startPoint;
 
-                startPoint += Random.insideUnitSphere.normalized * 5f;
+                startPoint += Random.insideUnitSphere.normalized * Random.Range(5f, 8f);
 
                 int maxTries = 20;
                 while (!SpawnPickup(startPoint) && maxTries > 0)
@@ -100,7 +100,7 @@ public class PickupSpawner : MonoBehaviour
             var potentialSpawnPoint = RandomPointInBounds(bounds);
             // DebugExtension.DebugPoint(potentialSpawnPoint, Color.green, 10f, 5f);
 
-            var overlappers = Physics.OverlapSphere(potentialSpawnPoint, 4f);
+            var overlappers = Physics.OverlapSphere(potentialSpawnPoint, 3f);
 
             if (overlappers.Length > 1)
                 continue;

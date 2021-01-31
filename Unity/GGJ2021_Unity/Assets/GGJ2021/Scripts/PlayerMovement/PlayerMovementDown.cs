@@ -6,8 +6,6 @@ using UnityEngine;
 public class PlayerMovementDown : MonoBehaviour
 {
     [SerializeField]
-    private float MaxAcceleration = 20f;
-    [SerializeField]
     private float panSpeed = 50f;
 
     private Rigidbody _rigidbody;
