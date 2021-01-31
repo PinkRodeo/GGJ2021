@@ -23,7 +23,10 @@ public class UITextTypeWriter : MonoBehaviour
 
 		
 		StartCoroutine ("PlayText");
+
 	}
+
+    
 
 	IEnumerator PlayText()
 	{
