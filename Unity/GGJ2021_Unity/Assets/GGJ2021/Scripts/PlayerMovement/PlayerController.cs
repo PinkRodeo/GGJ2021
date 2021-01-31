@@ -59,10 +59,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         // currentMoveMode = MoveDirection.Down;
-        // _playerControllerDown.SetupPhysics();
+        // _playerMovementDown.SetupPhysicsAndGo();
 
         currentMoveMode = MoveDirection.Up;
-        _playerMovementUp.SetupPhysics();
+        _playerMovementUp.SetupPhysicsAndGo();
     }
     private void FixedUpdate()
     {
@@ -113,7 +113,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// Gets the mouse position remapped to a square 
+    /// Gets the mouse position remapped to a square centered in the screen
     /// </summary>
     /// <returns></returns>
     private Vector2 GetMouseInScreenCoordinates()
@@ -157,13 +157,13 @@ public class PlayerController : MonoBehaviour
         {
             currentMoveMode = MoveDirection.Up;
             _playerMovementDown.Pause();
-            _playerMovementUp.SetupPhysics();
+            _playerMovementUp.SetupPhysicsAndGo();
         }
         else if (currentMoveMode == MoveDirection.Up)
         {
             currentMoveMode = MoveDirection.Down;
             _playerMovementUp.Pause();
-            _playerMovementDown.SetupPhysics();
+            _playerMovementDown.SetupPhysicsAndGo();
         }
     }
 

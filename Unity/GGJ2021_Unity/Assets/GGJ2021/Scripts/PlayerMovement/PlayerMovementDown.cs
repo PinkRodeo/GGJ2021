@@ -14,17 +14,12 @@ public class PlayerMovementDown : MonoBehaviour
         Pause();
     }
 
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
     private void FixedUpdate()
     {
-
+        // TODO: Make downwards platformer
     }
 
-    public void SetupPhysics()
+    public void SetupPhysicsAndGo()
     {
         this.enabled = true;
 
