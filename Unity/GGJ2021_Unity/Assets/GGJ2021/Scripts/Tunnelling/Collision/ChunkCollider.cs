@@ -51,8 +51,9 @@ public class ChunkCollider : MonoBehaviour
                 if (chunk.nextChunk == null)
                     continue;
 
-                // if (chunk.nextChunk.nextChunk == null)
-                //     continue;
+                if (chunk.nextChunk.nextChunk == null)
+                    continue;
+
                 // Don't try to collide with own tunnel
                 // continue;
             }
@@ -75,7 +76,7 @@ public class ChunkCollider : MonoBehaviour
                     continue;
                 }
 
-                rigidBody.AddForce((collisionPosition - center).normalized * -1.5f, ForceMode.Impulse);
+                rigidBody.AddForce((collisionPosition - center).normalized * -1.2f, ForceMode.Impulse);
             }
             else
             {
