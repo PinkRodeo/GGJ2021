@@ -12,6 +12,14 @@ public class Enemy : MonoBehaviour
 
     public GameObject _visual;
 
+    private AudioSource _hitSound;
+
+    private void Awake()
+    {
+        _hitSound = GetComponent<AudioSource>();
+
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (_tempDisabled)
@@ -23,6 +31,9 @@ public class Enemy : MonoBehaviour
             ScoreManager.Add(-50);
 
             _tempDisabled = true;
+
+            _hitSound.Play();
+
 
             _visual.transform.DOBlendableScaleBy(Vector3.one * 1.1f, 0.15f).SetEase(Ease.OutBack).OnComplete(() =>
                  {
