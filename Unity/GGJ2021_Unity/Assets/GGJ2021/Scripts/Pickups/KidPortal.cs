@@ -22,7 +22,6 @@ public class KidPortal : MonoBehaviour
         ScoreManager.OnScoreChanged += OnScoreChanged;
 
         _pickupSound = GetComponent<AudioSource>();
-
     }
 
     private void OnScoreChanged(ScoreChangeEvent e)
@@ -47,10 +46,17 @@ public class KidPortal : MonoBehaviour
         {
             // TODO: Play sound
 
+            _visualObject.transform.DOBlendableScaleBy(Vector3.one * 10f, 100f);
 
-            SceneManager.LoadScene("MenuVisuals");
+            Invoke("EndLevel", 1.5f);
 
         }
+    }
+
+    private void EndLevel()
+    {
+        SceneManager.LoadScene("MenuVisuals");
+
     }
 
     private void OpenPortal()
