@@ -1,6 +1,9 @@
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 
 public struct ScoreChangeEvent
 {
@@ -39,7 +42,7 @@ public class ScoreManager
             OldScore = oldScore,
             Delta = delta
         };
-        
+
         // fire score changed event
         OnScoreChanged?.Invoke(eventPayload);
 

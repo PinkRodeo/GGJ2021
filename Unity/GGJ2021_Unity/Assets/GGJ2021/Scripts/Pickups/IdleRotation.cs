@@ -13,6 +13,6 @@ public class IdleRotation : MonoBehaviour
     void Update()
     {
         transform.Rotate(new Vector3(0, 0, 20f * Time.deltaTime), Space.Self);
-        transform.Rotate(new Vector3(0, 190f * Time.deltaTime, 0), Space.World);
+        transform.Rotate(new Vector3(0, 90f * Time.deltaTime, 0), Space.World);
     }
 }
