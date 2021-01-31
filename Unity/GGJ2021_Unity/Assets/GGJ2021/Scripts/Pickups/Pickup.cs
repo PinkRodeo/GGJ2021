@@ -7,6 +7,13 @@ using DG.Tweening;
 [RequireComponent(typeof(Collider))]
 public class Pickup : MonoBehaviour
 {
+
+    private AudioSource _pickupSound;
+    private void Awake()
+    {
+        _pickupSound = GetComponent<AudioSource>();
+    }
+
     private void OnTriggerEnter(Collider collider)
     {
         GameObject other = collider.gameObject;
@@ -14,7 +21,7 @@ public class Pickup : MonoBehaviour
         {
             ScoreManager.Add(100);
 
-            // TODO: Play sound
+            _pickupSound.Play();
 
             transform.DOBlendableScaleBy(Vector3.one * -1f, 0.4f).SetEase(Ease.InBack).OnComplete(() =>
                  {

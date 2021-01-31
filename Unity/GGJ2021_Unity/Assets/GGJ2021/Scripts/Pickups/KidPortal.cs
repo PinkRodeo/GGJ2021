@@ -12,6 +12,7 @@ public class KidPortal : MonoBehaviour
 {
     private bool _closed = true;
     public GameObject _visualObject;
+    private AudioSource _pickupSound;
 
     private void Awake()
     {
@@ -19,6 +20,9 @@ public class KidPortal : MonoBehaviour
 
         _closed = true;
         ScoreManager.OnScoreChanged += OnScoreChanged;
+
+        _pickupSound = GetComponent<AudioSource>();
+
     }
 
     private void OnScoreChanged(ScoreChangeEvent e)
@@ -56,6 +60,7 @@ public class KidPortal : MonoBehaviour
             // Already open
             return;
         }
+        _pickupSound.Play();
 
         _closed = false;
 
