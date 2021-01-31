@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/GGJ2021/Scenes/Gameplay/_Game_Main.unity
+    guid: b8246934c26f7694fa778b6f4b415172
+  - enabled: 1
     path: Assets/GGJ2021/Scripts/Tunnelling/TunnelingCollisionTest.unity
     guid: c4397e8470e278e468f3498fab664c7e
   - enabled: 1
@@ -20,5 +23,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GGJ2021/Scripts/Tunnelling/TunnelingExample.unity
     guid: a6c25318e25cd1e4c854cfc86eb5b6cb
+  - enabled: 1
+    path: Assets/GGJ2021/Scenes/Gameplay/Game_Environment.unity
+    guid: 9f50aee602e67424985e255cc6a5d153
+  - enabled: 1
+    path: Assets/GGJ2021/Scenes/Gameplay/Game_LevelDesign.unity
+    guid: f3d93a5b6619a354a97b6ef2afdaee1f
+  - enabled: 1
+    path: Assets/GGJ2021/Scenes/Gameplay/Game_Core.unity
+    guid: 4c9d6b51aaa23ad458d56164438f1190
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: b81d0178c2ecd0946ab57b2720b51a36, type: 2}
