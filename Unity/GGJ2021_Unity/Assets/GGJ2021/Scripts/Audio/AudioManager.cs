@@ -12,8 +12,15 @@ public class AudioManager : MonoBehaviour
     public AudioMixer mixer;
     
     Scene currentScene;
+
+   
     // Start is called before the first frame update
     void Start()
+    {
+        init();
+    }
+
+    void init()
     {
         currentScene = SceneManager.GetActiveScene ();
         if (currentScene.name == "MenuVisuals")

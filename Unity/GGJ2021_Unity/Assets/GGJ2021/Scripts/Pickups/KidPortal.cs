@@ -55,6 +55,7 @@ public class KidPortal : MonoBehaviour
 
     private void EndLevel()
     {
+        Destroy(GameObject.Find("AudioEngine").gameObject);
         SceneManager.LoadScene("MenuVisuals");
 
     }
