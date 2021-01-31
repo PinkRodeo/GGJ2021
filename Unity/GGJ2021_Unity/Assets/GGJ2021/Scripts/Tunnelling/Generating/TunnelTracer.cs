@@ -18,6 +18,7 @@ public class TunnelTracer : MonoBehaviour
 
     private Transform _transform;
 
+    private Rigidbody _rigidBody;
 
     private Vector3 _previousPosition;
     public Vector3 currentDirection = Vector3.forward;
@@ -25,6 +26,7 @@ public class TunnelTracer : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+        _rigidBody = GetComponent<Rigidbody>();
     }
 
     private void OnDestroy()
@@ -61,6 +63,19 @@ public class TunnelTracer : MonoBehaviour
         targetTunnelData.FinishTunnel();
     }
 
+    private void Update()
+    {
+        if (_rigidBody != null)
+        {
+            currentDirection = _rigidBody.velocity.normalized;
+        }
+        else
+        {
+            var currentPosition = transform.position;
+            currentDirection = (currentPosition - _previousPosition).normalized;
+        }
+    }
+
     // Update is called once per frame
     private void FixedUpdate()
     {
@@ -78,8 +93,7 @@ public class TunnelTracer : MonoBehaviour
         }
 
         // FOr test purposes
-        var currentPosition = transform.position;
-        currentDirection = (currentPosition - _previousPosition).normalized;
+
     }
 
     private void AddTrace()
