@@ -7508,10 +7508,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Child
       objectReference: {fileID: 0}
-    - target: {fileID: 754711010457309558, guid: 1447a03a0e3b3d247a0115e8f5f5b091, type: 3}
-      propertyPath: m_Radius
-      value: 2.46
-      objectReference: {fileID: 0}
     - target: {fileID: 754711010457309559, guid: 1447a03a0e3b3d247a0115e8f5f5b091, type: 3}
       propertyPath: m_RootOrder
       value: 31
