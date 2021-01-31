@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour
 
     private bool _hasFocus = true;
 
+    public static PlayerController instance;
+
     public SteerMode steerMode
     {
         get
@@ -49,6 +51,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
+
         _playerMovementDown = GetComponent<PlayerMovementDown>();
         _playerMovementUp = GetComponent<PlayerMovementUp>();
 
@@ -58,11 +62,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        currentMoveMode = MoveDirection.Down;
-        _playerMovementDown.SetupPhysicsAndGo();
+        // currentMoveMode = MoveDirection.Down;
+        // _playerMovementDown.SetupPhysicsAndGo();
 
-        // currentMoveMode = MoveDirection.Up;
-        // _playerMovementUp.SetupPhysicsAndGo();
+        currentMoveMode = MoveDirection.Up;
+        _playerMovementUp.SetupPhysicsAndGo();
     }
     private void FixedUpdate()
     {
@@ -74,10 +78,10 @@ public class PlayerController : MonoBehaviour
 #if UNITY_EDITOR
 
         // Debug direction flip
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            FlipDirection();
-        }
+        // if (Input.GetKeyDown(KeyCode.R))
+        // {
+        //     FlipDirection();
+        // }
 
         // Debug lock input
         if (Input.GetKeyDown(KeyCode.Y))
