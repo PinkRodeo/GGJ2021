@@ -7,6 +7,7 @@ using UnityEngine;
 public class KidPortal : MonoBehaviour
 {
     private bool _closed = true;
+    public GameObject visuals;
 
     private void Awake()
     {
