@@ -339,7 +339,6 @@ public class TunnelChunk : MonoBehaviour
         return returnValue;
     }
 
-
     public void DoDebugDraw(float Duration)
     {
         Vector3 previousPosition = Vector3.zero;
