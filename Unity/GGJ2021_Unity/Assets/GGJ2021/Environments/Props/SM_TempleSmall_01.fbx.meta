@@ -21,7 +21,12 @@ ModelImporter:
   - first:
       74: 5084944639847773843
     second: POSEIDON_TEMPLE_AT_SOUNION.002|POSEIDON_TEMPLE_AT_SOUNIONAction.002
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: M_Temple
+    second: {fileID: 2100000, guid: 9b45fe7f30b2499408a56d8a1f1b7bd7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
