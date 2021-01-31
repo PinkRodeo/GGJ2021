@@ -21,19 +21,11 @@ public class GameCoreLoader : MonoBehaviour
         {
             if (asyncLoad.progress >= 0.9f)
             {
-                Debug.Log(Time.time);
                 if (Time.time - t > 10)
                     asyncLoad.allowSceneActivation = true;
             }
             yield return null;
         }
-     
-
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

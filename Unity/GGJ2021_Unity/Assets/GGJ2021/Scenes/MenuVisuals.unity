@@ -853,6 +853,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScreenBitrate
       objectReference: {fileID: 0}
+    - target: {fileID: 3043581316123528206, guid: 38da2b76fe26e314ba7cf5de6951d4a4, type: 3}
+      propertyPath: m_text
+      value: __________kHs
+      objectReference: {fileID: 0}
+    - target: {fileID: 3043581316566366280, guid: 38da2b76fe26e314ba7cf5de6951d4a4, type: 3}
+      propertyPath: m_text
+      value: __________kHz
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38da2b76fe26e314ba7cf5de6951d4a4, type: 3}
 --- !u!1 &2017136302

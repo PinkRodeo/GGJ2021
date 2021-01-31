@@ -12,19 +12,21 @@ public class MainmenuScore : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        RefreshScore();
+      //  RefreshScore();
     }
 
     void RefreshScore()
     {
         //PlayerPrefs.SetInt("Score", 1337);
-        totalScore = PlayerPrefs.GetInt("Score");
-        TotalText.text = totalScore.ToString();
+     
+        TotalText.text = ScoreManager.MaxScore.ToString();
+
+        RunText.text = ScoreManager.Score.ToString();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        RefreshScore();
     }
 }
