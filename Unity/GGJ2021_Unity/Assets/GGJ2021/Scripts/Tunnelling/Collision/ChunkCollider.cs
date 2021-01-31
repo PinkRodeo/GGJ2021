@@ -50,7 +50,6 @@ public class ChunkCollider : MonoBehaviour
         {
             if (chunk.parent.tunnelData.tunnelTracer.gameObject == gameObject)
             {
-                Debug.Log("Didn't collide with own tunnel!");
                 // Don't try to collide with own tunnel
                 continue;
             }
