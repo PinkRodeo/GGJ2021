@@ -58,11 +58,11 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        // currentMoveMode = MoveDirection.Down;
-        // _playerMovementDown.SetupPhysicsAndGo();
+        currentMoveMode = MoveDirection.Down;
+        _playerMovementDown.SetupPhysicsAndGo();
 
-        currentMoveMode = MoveDirection.Up;
-        _playerMovementUp.SetupPhysicsAndGo();
+        // currentMoveMode = MoveDirection.Up;
+        // _playerMovementUp.SetupPhysicsAndGo();
     }
     private void FixedUpdate()
     {

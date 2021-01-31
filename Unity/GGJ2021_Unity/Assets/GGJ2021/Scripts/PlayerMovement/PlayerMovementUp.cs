@@ -7,11 +7,9 @@ using UnityEngine;
 public class PlayerMovementUp : MonoBehaviour
 {
     [SerializeField]
-    private float ForceIntensity = 10;
+    private float MaxAcceleration = 20f;
     [SerializeField]
-    private int MaxAcceleration = 50;
-    [SerializeField]
-    private float RotSpeed = 0.2f;
+    private float SteeringSpeed = 50f;
 
     private Rigidbody _rigidbody;
 
@@ -46,7 +44,6 @@ public class PlayerMovementUp : MonoBehaviour
         _rigidbody.velocity = Vector3.zero;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
         var steerInput = _playerController.steeringInput;
@@ -57,7 +54,7 @@ public class PlayerMovementUp : MonoBehaviour
 
         if (_playerController.steerMode == SteerMode.Movement)
         {
-            var newDirection = new Vector3(-steerInput.y * RotSpeed * Time.fixedDeltaTime, steerInput.x * RotSpeed * Time.fixedDeltaTime, 0);
+            var newDirection = new Vector3(-steerInput.y * SteeringSpeed * Time.fixedDeltaTime, steerInput.x * SteeringSpeed * Time.fixedDeltaTime, 0);
             _rigidbody.MoveRotation(_rigidbody.rotation * Quaternion.Euler(newDirection));
         }
         else
