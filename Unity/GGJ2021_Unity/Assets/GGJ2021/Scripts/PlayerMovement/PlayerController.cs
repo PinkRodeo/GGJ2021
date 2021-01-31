@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
         _steerMode = SteerMode.Movement;
 
-        if (Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) || Input.GetMouseButton(0))
         {
             _steerMode = SteerMode.Look;
         }
