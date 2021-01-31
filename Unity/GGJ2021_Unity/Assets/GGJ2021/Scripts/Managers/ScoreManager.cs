@@ -1,7 +1,4 @@
 
-#if UNITY_EDITOR
-#define DEBUGDRAW
-#endif
 
 using System.Collections;
 using System.Collections.Generic;

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 [RequireComponent(typeof(Collider))]
 public class Pickup : MonoBehaviour
 {
@@ -38,7 +40,17 @@ public class Pickup : MonoBehaviour
 
             // TODO: Add Score
 
-            Destroy(gameObject);
+            transform.DOBlendableScaleBy(Vector3.one * -1f, 0.4f).SetEase(Ease.InBack).OnComplete(() =>
+                 {
+                     Destroy(gameObject);
+                 });
+
+
         }
+    }
+
+    private void OnPickupComplete()
+    {
+
     }
 }

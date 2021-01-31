@@ -48,8 +48,13 @@ public class ChunkCollider : MonoBehaviour
         {
             if (chunk.parent.tunnelData.tunnelTracer.gameObject == gameObject)
             {
+                if (chunk.nextChunk == null)
+                    continue;
+
+                // if (chunk.nextChunk.nextChunk == null)
+                //     continue;
                 // Don't try to collide with own tunnel
-                continue;
+                // continue;
             }
 
             Vector3 collisionPosition;
