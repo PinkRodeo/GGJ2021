@@ -12,7 +12,7 @@ public class ScoreUI : MonoBehaviour
     private void Awake()
     {
         _textMesh = GetComponent<TextMeshProUGUI>();
-        _textMesh.text = "BitRate:   0kHz";
+        _textMesh.text = "BitRate:   0kHz / " + ScoreManager.MaxScore + "kHz";
 
 
         ScoreManager.OnScoreChanged += OnScoreChanged;
@@ -33,7 +33,7 @@ public class ScoreUI : MonoBehaviour
         DOTween.To(() => currentDisplayScore, newValue =>
         {
             currentDisplayScore = newValue;
-            _textMesh.text = "BitRate:   " + (Mathf.Floor(newValue)).ToString() + "kHz";
+            _textMesh.text = "BitRate:   " + (Mathf.Floor(newValue)).ToString() + "kHz / " + ScoreManager.MaxScore + "kHz";
         }, e.NewScore, 0.4f);
 
         float textMoveOffset = 0f;

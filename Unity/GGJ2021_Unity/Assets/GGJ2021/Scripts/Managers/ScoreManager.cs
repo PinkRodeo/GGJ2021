@@ -19,6 +19,8 @@ public delegate void BaseEvent<T>(T e);
 public class ScoreManager
 {
     private static int score = 0;
+
+    public static int MaxScore = 4200;
     public static int Score { get => score; }
 
     public static event BaseEvent<ScoreChangeEvent> OnScoreChanged;
