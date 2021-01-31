@@ -21,12 +21,14 @@ public class UITextTypeWriter : MonoBehaviour
 		story = txt.text;
 		txt.text = "";
 
-		
-		StartCoroutine ("PlayText");
-
+		StartCoroutine(startTyping());
 	}
 
-    
+    IEnumerator startTyping()
+    {
+        yield return new WaitForSeconds(1);
+		StartCoroutine ("PlayText");
+    }
 
 	IEnumerator PlayText()
 	{

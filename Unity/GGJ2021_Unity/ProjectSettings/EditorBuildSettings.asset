@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/GGJ2021/Scenes/StartScene.unity
     guid: 71f4f30b281cf584ea51e74af32cfc1e
   - enabled: 1
+    path: Assets/GGJ2021/Scenes/MenuVisuals.unity
+    guid: 0c9b5e54accc650438c9c410d7caa3a2
+  - enabled: 1
     path: Assets/GGJ2021/Scenes/GameplayScene.unity
     guid: 4c9d6b51aaa23ad458d56164438f1190
   - enabled: 1
