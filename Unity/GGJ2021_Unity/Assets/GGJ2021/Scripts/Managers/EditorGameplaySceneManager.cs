@@ -45,7 +45,7 @@ public class EditorGameplaySceneManager : MonoBehaviour
             manager.scenesToLoad.Add(sceneAsset.name);
         }
 
-        EditorSceneManager.SetActiveScene(currentScene);
+        // EditorSceneManager.SetActiveScene(currentScene);
     }
 #endif
 
