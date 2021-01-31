@@ -255,6 +255,11 @@ public class TunnelChunk : MonoBehaviour
             nextDirection = tunnelTracer.currentDirection;
         }
 
+        if (nextDirection.magnitude < .5f)
+        {
+            nextDirection = Vector3.up;
+        }
+
         center = nextPosition + tunnelTracer.currentDirection * forwardOffset;
         Quaternion rotator = Quaternion.LookRotation(nextDirection, _upDirection);
 
@@ -338,7 +343,6 @@ public class TunnelChunk : MonoBehaviour
 
         return returnValue;
     }
-
 
     public void DoDebugDraw(float Duration)
     {
