@@ -34,7 +34,6 @@ public class Enemy : MonoBehaviour
 
             _hitSound.Play();
 
-
             _visual.transform.DOBlendableScaleBy(Vector3.one * 1.1f, 0.15f).SetEase(Ease.OutBack).OnComplete(() =>
                  {
                      _visual.transform.DOBlendableScaleBy(Vector3.one / 1.1f, 0.2f).SetEase(Ease.InQuart).OnComplete(() =>
