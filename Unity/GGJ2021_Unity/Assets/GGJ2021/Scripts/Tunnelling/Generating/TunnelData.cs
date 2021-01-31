@@ -20,8 +20,11 @@ public struct TunnelPoint
 /// </summary>
 public class TunnelData : MonoBehaviour
 {
+#if UNITY_WEBGL
+    public static int MAX_TUNNEL_POINTS = 500;
+#else
     public static int MAX_TUNNEL_POINTS = 10000;
-
+#endif
     // [UnityEngine.SerializeField]
     public TunnelPoint[] tunnelPoints = new TunnelPoint[0];
     public OnTunnelUpdated onTunnelUpdated;
