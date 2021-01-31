@@ -36,9 +36,20 @@ public class ScoreUI : MonoBehaviour
             _textMesh.text = "BitRate:   " + (Mathf.Floor(newValue)).ToString() + "kHz";
         }, e.NewScore, 0.4f);
 
-        _textMesh.rectTransform.DOBlendableLocalMoveBy(Vector3.up * 50f, 0.1f).SetEase(Ease.OutElastic).onComplete += () =>
+        float textMoveOffset = 0f;
+
+        if (e.Delta > 0)
         {
-            _textMesh.rectTransform.DOBlendableLocalMoveBy(Vector3.down * 50f, 0.5f).SetEase(Ease.InQuad);
+            textMoveOffset = 50f;
+        }
+        else
+        {
+            textMoveOffset = -20f;
+        }
+
+        _textMesh.rectTransform.DOBlendableLocalMoveBy(Vector3.up * textMoveOffset, 0.1f).SetEase(Ease.OutElastic).onComplete += () =>
+        {
+            _textMesh.rectTransform.DOBlendableLocalMoveBy(Vector3.down * textMoveOffset, 0.5f).SetEase(Ease.InQuad);
         };
 
         // _textMesh.DOBlendableColor(Color.cyan, 0.1f).onComplete += () =>
