@@ -22,7 +22,7 @@ public class TunnelPlacer : MonoBehaviour
 
 
     // TODO: tweak this number together with the cost of finding chunks to collide with
-    private static int SEGMENTS_PER_CHUNK = 40;
+    private static int SEGMENTS_PER_CHUNK = 20;
 
     public int TunnelFaceCount = 6;
 

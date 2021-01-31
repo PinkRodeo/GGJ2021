@@ -249,8 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 033f9818722938c42aef57154922d79b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliderSize: 5
-  boundExtends: 14
+  colliderSize: 4
+  boundExtends: 10
   CollisionRate: 0.1
 --- !u!1 &3019535250192323096
 GameObject:
