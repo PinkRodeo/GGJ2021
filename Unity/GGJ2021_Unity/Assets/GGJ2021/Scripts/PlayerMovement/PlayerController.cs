@@ -18,26 +18,26 @@ public class PlayerController : MonoBehaviour
     Vector3 mousesaved = new Vector3();
     Vector3 mouseoffset = new Vector3();
 
-    private Rigidbody _rb;
+    private Rigidbody _rigidBody;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         mousesaved = Input.mousePosition;
-        _rb = GetComponent<Rigidbody>();
+        _rigidBody = GetComponent<Rigidbody>();
 
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         if (Input.GetKey(KeyCode.Y))
         {
             _movingDown = false;
             keyboardenabled = true;
-            _rb.velocity = Vector3.zero;
+            _rigidBody.velocity = Vector3.zero;
         }
-         #endif
+#endif
         if (keyboardenabled)
         {
             if (Input.GetKey(KeyCode.W))
@@ -48,8 +48,8 @@ public class PlayerController : MonoBehaviour
                 transform.Rotate(Vector3.left * 50 * Time.deltaTime);
             if (Input.GetKey(KeyCode.D))
                 transform.Rotate(-Vector3.up * 50 * Time.deltaTime);
-                
-            _rb.velocity = transform.forward * MaxSpeed;
+
+            _rigidBody.velocity = transform.forward * MaxSpeed;
         }
         if (_movingDown)
         {
@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             //Vector3 norm = new Vector3(mousecurve.x -1, mousecurve.y -1, mousecurve.z -1 );
             Vector3 mouseRotNorm = mousecurve;
             transform.Rotate(new Vector3(-mouseRotNorm.y * RotSpeed, mouseRotNorm.x * RotSpeed, 0));
-            
+
             if (mousesaved != Input.mousePosition)   // set the mouse saved positon
             {
                 mouseoffset = Input.mousePosition - mousesaved;
@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
                 mouseoffset = mouseoffset * 0.6f; // when not moving mouse, decrease stear ?? will be normalized so doesnt do anything?
             }
 
-             _rb.velocity = transform.forward * MaxSpeed;
+            _rigidBody.velocity = transform.forward * MaxSpeed;
             if (Input.GetMouseButton(0)) transform.Rotate(new Vector3(0, 0, 1));
             if (Input.GetMouseButton(1)) transform.Rotate(new Vector3(0, 0, -1));
         }
@@ -80,7 +80,10 @@ public class PlayerController : MonoBehaviour
     void OnApplicationFocus(bool hasFocus)
     {
         _movingDown = hasFocus;
-        if (!hasFocus) _rb.velocity = Vector3.zero;
+        if (!hasFocus && _rigidBody != null)
+        {
+            _rigidBody.velocity = Vector3.zero;
+        }
     }
 
 }
