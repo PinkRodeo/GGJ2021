@@ -6,7 +6,7 @@ public class OrbitBehavior : MonoBehaviour
 {
     public static readonly Vector3 BASE_NORMAL = new Vector3(0, 0, 1);
 
-    public Vector3 center = new Vector3();
+    private Vector3 center = new Vector3();
     public Vector3 normal = BASE_NORMAL;
 
     public float radius = 10.0f;
@@ -19,6 +19,7 @@ public class OrbitBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        center = transform.position;
         rotation = Quaternion.FromToRotation(BASE_NORMAL, normal);
     }
 
@@ -48,8 +49,14 @@ public class OrbitBehavior : MonoBehaviour
         gameObject.transform.position = center + offset;
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
+        if (UnityEditor.EditorApplication.isPlaying)
+            return;
+
+        center = transform.position;
+
         Gizmos.color = Color.red;
         Gizmos.DrawLine(center, center + normal * 3.5f);
 
@@ -75,4 +82,6 @@ public class OrbitBehavior : MonoBehaviour
             Gizmos.DrawLine(prev, current);
         }
     }
+#endif
+
 }

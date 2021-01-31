@@ -12,8 +12,13 @@ public class PickupSpawner : MonoBehaviour
 {
     public GameObject pickupPrefab;
     private BoxCollider _boxCollider;
-    public Bounds _bounds;
+    private Bounds _bounds;
     private List<GameObject> _activePickups = new List<GameObject>();
+
+    public int waveBudget = 50;
+
+    public int clusterMin = 3;
+    public int clusterMax = 9;
 
     private void Awake()
     {
@@ -61,14 +66,14 @@ public class PickupSpawner : MonoBehaviour
     {
         int timeOut = 200;
 
-        while ((_activePickups.Count < 200) && timeOut > 0)
+        while ((_activePickups.Count < waveBudget) && timeOut > 0)
         {
             timeOut -= 1;
 
             var startPoint = PickValidSpawnPoint();
             SpawnPickup(startPoint);
 
-            int clusterSize = Random.Range(3, 9);
+            int clusterSize = Random.Range(clusterMin, clusterMax);
 
             for (int i = 0; i < clusterSize; i++)
             {
